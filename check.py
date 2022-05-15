@@ -3,9 +3,9 @@ import numpy as np
 x = Symbol('x')
 y = Symbol('y')
 # if there is no multiplication sign between the two numbers, add multiplication sign between them
-
-vl = add_mult_sign('2x')
-print(vl)
+print(diff("ln(x)"))
+# vl = add_mult_sign('2x')
+# print(vl)
 # eval("2x")
 # eq = diff("2*x*cos(x) + x**2")
 # print(eq)

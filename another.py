@@ -1,7 +1,3 @@
-from ast import Try
-from distutils.dep_util import newer
-from operator import eq
-from warnings import catch_warnings
 from sympy import *
 equation = input()
 x = Symbol('x')
@@ -18,45 +14,56 @@ i = 0
 # add mult sign between two vals
 
 
+def evExp(eq, indx):
+# cos(x)
+    global i, new_eq, x
+    for ind in range(len(eq)):
+        print("Function evExp")
+        # print("Outer Equation: " + eq[indx])
+        if indx == len(eq) or indx > len(eq) or ind > len(eq) or ind == len(eq):
+            break
+        if indx+1 <= len(eq):
+            checkExpr(eq, indx)
+        elif indx == len(eq)-1:
+            new_eq += eq[indx]
+            break
+        i = i + 1
+        indx += 1
+
+
 def checkExpr(equation, indd):
-    print("Given equation: " + equation)
-    print("Given Index: ", indd)
+    print("CHecking Expression _---")
+    print("Chk: ", equation)
     global x, new_eq, i
     f_ind = indd
     two_pc = ''
-    if (equation[f_ind] >= '0' and equation[f_ind] <= '9') or equation[f_ind] == 'x':
-        print('getting here')
+    if (equation[f_ind] >= '0' and equation[f_ind] <= '9'):
         two_pc += equation[f_ind]
         print(equation[f_ind])
+        print(equation)
         print(len(equation))
         # if i + 1 <= len(equation):
-        if(f_ind+1 == len(equation)):
+        if(f_ind+1 == len(equation)) or equation[f_ind] == 'x':
             new_eq += equation[f_ind]
             print(new_eq)
+            return
         elif equation[f_ind+1] != '*' and equation[f_ind + 1] != '=' and f_ind+1 < len(equation):
             if ((equation[f_ind + 1] >= '0' and equation[f_ind + 1] <= '9') or equation[f_ind + 1] == 'x'):
-                print('insert if')
                 two_pc += equation[f_ind + 1]
                 f_ind += 1
                 i = i + 1
-                print('adding mult')
                 new_eq += add_mult_sign(two_pc)
             elif((equation[f_ind+1] == '^')):
                 new_eq += equation[f_ind]
                 new_eq += '**'
                 f_ind += 1
                 i += 1
-                print('making power')
         else:
             new_eq += equation[f_ind] + equation[f_ind + 1]
-            print('else')
             two_pc = ''
     elif equation[f_ind] == '+' or equation[f_ind] == '-' or equation[f_ind] == '*' or equation[f_ind] == '/':
         new_eq += equation[f_ind]
     elif equation[f_ind] == '^':
-        print('power')
-        print(equation[f_ind])
-        print(new_eq)
         new_eq += '**'
     elif equation[f_ind] == 's' or equation[f_ind] == 'c' or equation[f_ind] == 't' or equation[f_ind] == 'l' or equation[f_ind] == 'e':
         if equation[f_ind-1] != '+' and equation[f_ind-1] != '-' and equation[f_ind-1] != '*' and equation[f_ind-1] != '/' and equation[f_ind-1] != '^':
@@ -85,22 +92,21 @@ def checkExpr(equation, indd):
                             stack.pop()
                     else:
                         pos += 1
-                        print("Error")
 
                 # ab = equation.index(')', i+1, len(equation))
                 closeBracketInd = pos
-                print("position of bracket", pos)
-                # print('AB: ', ab)
-                # print()
                 print(equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
-                checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                # checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                evExp(equation[f_ind+1:closeBracketInd], 0)
+
                 new_eq += ')'
                 f_ind += 1
                 i += 1
         elif equation[f_ind] == 's':
-            print('sin')
+            print("Entering Sin")
+            print("F_INDEX EQUATION: ", equation[f_ind])
             new_eq += 'sin'
             i += 2
             f_ind += 2
@@ -113,7 +119,6 @@ def checkExpr(equation, indd):
                 stack = []
                 pos = f_ind
                 for ab in equation[f_ind+1:len(equation)]:
-                    print('Stack', stack)
                     if ab == '(':
                         stack.append(ab)
                         pos += 1
@@ -123,14 +128,9 @@ def checkExpr(equation, indd):
                             stack.pop()
                     else:
                         pos += 1
-                        print("Error")
 
                 # ab = equation.index(')', i+1, len(equation))
                 closeBracketInd = pos
-                print("position of bracket", pos)
-                # print('AB: ', ab)
-                # print()
-                print(equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
                 checkExpr(equation[f_ind+1:closeBracketInd], 0)
@@ -139,6 +139,8 @@ def checkExpr(equation, indd):
                 i += 1
         elif equation[f_ind] == 'c':
             print("========== entering cos ==============")
+            print("FINDEX: ", f_ind)
+            print("equation: ", equation)
             new_eq += 'cos'
             i += 2
             f_ind += 2
@@ -146,12 +148,13 @@ def checkExpr(equation, indd):
                 new_eq += '(x)'
                 i += 2
                 f_ind += 2
+                print("Getting Here") 
+                print("New EQuation: ", new_eq)
             elif equation[f_ind+1] == '(':
                 new_eq += '('
                 stack = []
                 pos = f_ind
                 for ab in equation[f_ind+1:len(equation)]:
-                    print('Stack', stack)
                     if ab == '(':
                         stack.append(ab)
                         pos += 1
@@ -161,17 +164,16 @@ def checkExpr(equation, indd):
                             stack.pop()
                     else:
                         pos += 1
-                        print("Error")
 
                 # ab = equation.index(')', i+1, len(equation))
                 closeBracketInd = pos
-                print("position of bracket", pos)
-                # print('AB: ', ab)
-                # print()
-                print(equation[f_ind+2: closeBracketInd])
+                print("Cosx--- : ", equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
-                checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                # checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                print("RUNNING")
+                evExp(equation[f_ind+1:closeBracketInd], 0)
+
                 new_eq += ')'
                 f_ind += 1
                 i += 1
@@ -190,7 +192,6 @@ def checkExpr(equation, indd):
                 stack = []
                 pos = f_ind
                 for ab in equation[f_ind+1:len(equation)]:
-                    print('Stack', stack)
                     if ab == '(':
                         stack.append(ab)
                         pos += 1
@@ -200,20 +201,37 @@ def checkExpr(equation, indd):
                             stack.pop()
                     else:
                         pos += 1
-                        print("Error")
-
-                # ab = equation.index(')', i+1, len(equation))
+                        
                 closeBracketInd = pos
-                print("position of bracket", pos)
-                # print('AB: ', ab)
-                # print()
-                print(equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
-                checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                # PROBLEM CLEARED IS HERE F_IND SHOULD BE GO 0 AT FIRST THEN ACCORDING TO THE LOOP INDX
+                print("Hello")
+                evExp(equation[f_ind+1:closeBracketInd], 0)
                 new_eq += ')'
                 f_ind += 1
                 i += 1
+                print("Hello aGAIN")
+                print("New Equation: ", new_eq)
+
+                # for a in range(len(equation)):
+                #     print('index')
+                #     if f_ind == len(equation) or f_ind > len(equation) or a > len(equation) or a == len(equation):
+                #         print('indx')
+                #         break
+                #     if f_ind+1 <= len(equation):
+                #         print("Getting In Here")
+                #         print('most outer', i)
+                #         checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                #     elif f_ind == len(equation)-1:
+                #         print('equation', i)
+                #         print('len', len(equation))
+                #         print('equation', equation[i])
+                #         new_eq += equation[i]
+                #         break
+                #     i = i + 1
+                #     f_ind +=1
+                # checkExpr(equation[f_ind+1:closeBracketInd], 0)
                 # i += (closeBracketInd - (i+1))-1
 # check for trig functions and evaluate them
 
@@ -234,22 +252,19 @@ def add_mult_sign(string):
 
 # try:
 for ind in range(len(equation)):
-    print('index')
-    # print("OLD EQ", equation[i])
-    print('equation iNDXE', i)
+    print('OUTER LOOPPP NOT A AFUNCTION')
+    print('INDEX: ', i)
+    # print("Outer Equation: " + equation[i])
     if i == len(equation) or i > len(equation) or ind > len(equation) or ind == len(equation):
-        print('indx')
         break
     if i+1 <= len(equation):
-        print('most outer', i)
         checkExpr(equation, i)
     elif i == len(equation)-1:
-        print('equation', i)
-        print('len', len(equation))
-        print('equation', equation[i])
         new_eq += equation[i]
         break
     i = i + 1
+
+# evExp(equation, i)
 print("Equation: ", new_eq)
 diffr = diff(new_eq)
 print("Differentiation: ", diffr)
