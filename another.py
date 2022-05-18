@@ -7,34 +7,37 @@ x = Symbol('x')
 
 new_eq = ''
 i = 0
-
+evIndex = 0
 # def setEqInd(equation,ind):
 #     i = ind
 #     new_eq = equation
 # add mult sign between two vals
 
 
+# yahan pr mujhe aik aisa variable cahiye to function se value change krke le aye
+
 def evExp(eq, indx):
 # cos(x)
-    global i, new_eq, x
+    global i, new_eq, x, evIndex
+    evIndex = indx
     for ind in range(len(eq)):
         print("Function evExp")
         # print("Outer Equation: " + eq[indx])
-        if indx == len(eq) or indx > len(eq) or ind > len(eq) or ind == len(eq):
+        if evIndex == len(eq) or evIndex > len(eq) or ind > len(eq) or ind == len(eq):
             break
-        if indx+1 <= len(eq):
-            checkExpr(eq, indx)
-        elif indx == len(eq)-1:
-            new_eq += eq[indx]
+        if evIndex+1 <= len(eq):
+            checkExpr(eq, evIndex)
+        elif evIndex == len(eq)-1:
+            new_eq += eq[evIndex]
             break
         i = i + 1
-        indx += 1
+        evIndex += 1
 
 
 def checkExpr(equation, indd):
     print("CHecking Expression _---")
     print("Chk: ", equation)
-    global x, new_eq, i
+    global x, new_eq, i, evIndex
     f_ind = indd
     two_pc = ''
     if (equation[f_ind] >= '0' and equation[f_ind] <= '9'):
@@ -148,6 +151,7 @@ def checkExpr(equation, indd):
                 new_eq += '(x)'
                 i += 2
                 f_ind += 2
+                evIndex += 2
                 print("Getting Here") 
                 print("New EQuation: ", new_eq)
             elif equation[f_ind+1] == '(':
@@ -170,6 +174,7 @@ def checkExpr(equation, indd):
                 print("Cosx--- : ", equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
+                evIndex += 1
                 # checkExpr(equation[f_ind+1:closeBracketInd], 0)
                 print("RUNNING")
                 evExp(equation[f_ind+1:closeBracketInd], 0)
@@ -177,6 +182,7 @@ def checkExpr(equation, indd):
                 new_eq += ')'
                 f_ind += 1
                 i += 1
+                evIndex += 1
                 # i += equation[i+1:closeBracketInd]-1
         elif equation[f_ind] == 't':
             new_eq += 'tan'
