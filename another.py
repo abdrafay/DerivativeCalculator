@@ -17,7 +17,7 @@ evIndex = 0
 # yahan pr mujhe aik aisa variable cahiye to function se value change krke le aye
 
 def evExp(eq, indx):
-# cos(x)
+    # cos(x)
     global i, new_eq, x, evIndex
     evIndex = indx
     for ind in range(len(eq)):
@@ -35,16 +35,17 @@ def evExp(eq, indx):
 
 
 def checkExpr(equation, indd):
-    print("CHecking Expression _---")
-    print("Chk: ", equation)
+
     global x, new_eq, i, evIndex
+    print("Chk: ", equation)
     f_ind = indd
     two_pc = ''
+    print('a')
     if (equation[f_ind] >= '0' and equation[f_ind] <= '9'):
         two_pc += equation[f_ind]
-        print(equation[f_ind])
-        print(equation)
-        print(len(equation))
+        # print(equation[f_ind])
+        # print(equation)
+        # print(len(equation))
         # if i + 1 <= len(equation):
         if(f_ind+1 == len(equation)) or equation[f_ind] == 'x':
             new_eq += equation[f_ind]
@@ -80,12 +81,12 @@ def checkExpr(equation, indd):
                 new_eq += '(x)'
                 i += 2
                 f_ind += 2
+                evIndex += 2
             elif equation[f_ind+1] == '(':
                 new_eq += '('
                 stack = []
                 pos = f_ind
                 for ab in equation[f_ind+1:len(equation)]:
-                    print('Stack', stack)
                     if ab == '(':
                         stack.append(ab)
                         pos += 1
@@ -98,15 +99,16 @@ def checkExpr(equation, indd):
 
                 # ab = equation.index(')', i+1, len(equation))
                 closeBracketInd = pos
-                print(equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
+                evIndex += 1
                 # checkExpr(equation[f_ind+1:closeBracketInd], 0)
                 evExp(equation[f_ind+1:closeBracketInd], 0)
 
                 new_eq += ')'
                 f_ind += 1
                 i += 1
+                evIndex += 1
         elif equation[f_ind] == 's':
             print("Entering Sin")
             print("F_INDEX EQUATION: ", equation[f_ind])
@@ -117,6 +119,7 @@ def checkExpr(equation, indd):
                 new_eq += '(x)'
                 i += 2
                 f_ind += 2
+                evIndex += 2
             elif equation[f_ind+1] == '(':
                 new_eq += '('
                 stack = []
@@ -136,14 +139,15 @@ def checkExpr(equation, indd):
                 closeBracketInd = pos
                 f_ind += 1
                 i += 1
-                checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                evIndex += 1
+                # checkExpr(equation[f_ind+1:closeBracketInd], 0)
+                evExp(equation[f_ind+1:closeBracketInd], 0)
+
                 new_eq += ')'
                 f_ind += 1
                 i += 1
+                evIndex += 1
         elif equation[f_ind] == 'c':
-            print("========== entering cos ==============")
-            print("FINDEX: ", f_ind)
-            print("equation: ", equation)
             new_eq += 'cos'
             i += 2
             f_ind += 2
@@ -152,8 +156,6 @@ def checkExpr(equation, indd):
                 i += 2
                 f_ind += 2
                 evIndex += 2
-                print("Getting Here") 
-                print("New EQuation: ", new_eq)
             elif equation[f_ind+1] == '(':
                 new_eq += '('
                 stack = []
@@ -171,12 +173,10 @@ def checkExpr(equation, indd):
 
                 # ab = equation.index(')', i+1, len(equation))
                 closeBracketInd = pos
-                print("Cosx--- : ", equation[f_ind+2: closeBracketInd])
                 f_ind += 1
                 i += 1
                 evIndex += 1
                 # checkExpr(equation[f_ind+1:closeBracketInd], 0)
-                print("RUNNING")
                 evExp(equation[f_ind+1:closeBracketInd], 0)
 
                 new_eq += ')'
@@ -193,6 +193,7 @@ def checkExpr(equation, indd):
                 new_eq += '(x)'
                 i += 2
                 f_ind += 2
+                evIndex += 2
             elif equation[f_ind+1] == '(':
                 new_eq += '('
                 stack = []
@@ -207,18 +208,19 @@ def checkExpr(equation, indd):
                             stack.pop()
                     else:
                         pos += 1
-                        
+
+                # ab = equation.index(')', i+1, len(equation))
                 closeBracketInd = pos
                 f_ind += 1
                 i += 1
-                # PROBLEM CLEARED IS HERE F_IND SHOULD BE GO 0 AT FIRST THEN ACCORDING TO THE LOOP INDX
-                print("Hello")
+                evIndex += 1
+                # checkExpr(equation[f_ind+1:closeBracketInd], 0)
                 evExp(equation[f_ind+1:closeBracketInd], 0)
+
                 new_eq += ')'
                 f_ind += 1
                 i += 1
-                print("Hello aGAIN")
-                print("New Equation: ", new_eq)
+                evIndex += 1
 
                 # for a in range(len(equation)):
                 #     print('index')
@@ -261,14 +263,32 @@ for ind in range(len(equation)):
     print('OUTER LOOPPP NOT A AFUNCTION')
     print('INDEX: ', i)
     # print("Outer Equation: " + equation[i])
+
     if i == len(equation) or i > len(equation) or ind > len(equation) or ind == len(equation):
         break
     if i+1 <= len(equation):
-        checkExpr(equation, i)
+        stk = []
+        ps = i
+        if i <= len(equation)-1:
+            for ab in equation[i:len(equation)]:
+                if ab == '(':
+                    stk.append(ab)
+                    ps += 1
+                elif ab == ')':
+                    ps += 1
+                    if (len(stk) > 0 and ('(' == stk[len(stk)-1])):
+                        stk.pop()
+                else:
+                    ps += 1
+        # print(ps)
+        print("Giving Equation: " ,equation[i+1:ps])
+        checkExpr(equation[i+1:ps], 0)
+
     elif i == len(equation)-1:
         new_eq += equation[i]
         break
     i = i + 1
+
 
 # evExp(equation, i)
 print("Equation: ", new_eq)
