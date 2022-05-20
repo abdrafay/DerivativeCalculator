@@ -1,5 +1,6 @@
 from sympy import *
 import numpy as np
+print('s')  
 x = Symbol('x')
 y = Symbol('y')
 # if there is no multiplication sign between the two numbers, add multiplication sign between them
@@ -21,20 +22,20 @@ print(diff("ln(x)"))
 #     #check if ch1 and ch2 contain any special character
 #     if(ch1.find('(') != -1 or ch1.find(')') != -1 or ch1.find('+') != -1 or ch1.find('-') != -1 or ch1.find('*') != -1 or ch1.find('/') != -1 or ch1.find('^') != -1):
 # }
-# def check_splcharacter(chr): 
-  
-#     # Make an RE character set and pass  
+# def check_splcharacter(chr):
+
+#     # Make an RE character set and pass
 #     # this as an argument in compile function
- 
-#     string_check= re.compile('[@_!#$%^&*()<>?/\|}{~:]') 
-      
-#     # Pass the string in search function  
+
+#     string_check= re.compile('[@_!#$%^&*()<>?/\|}{~:]')
+
+#     # Pass the string in search function
 #     # of RE object (string_check).
-     
-#     if(string_check.search(chr) == None): 
+
+#     if(string_check.search(chr) == None):
 #         print("String does not contain Special Characters.")
-          
-#     else: 
+
+#     else:
 #         print("String contains Special Characters.")
 
 # # Extract Symbol from an equation
@@ -178,4 +179,4 @@ print(diff("ln(x)"))
 # # print(expr)
 
 # # sym = Symbol('x')
-# # 
+# #

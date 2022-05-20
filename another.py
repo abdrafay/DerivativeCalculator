@@ -281,7 +281,7 @@ for ind in range(len(equation)):
                 else:
                     ps += 1
         # print(ps)
-        print("Giving Equation: " ,equation[i+1:ps])
+        print("Giving Equation: ", equation[i+1:ps])
         checkExpr(equation[i+1:ps], 0)
 
     elif i == len(equation)-1:
@@ -294,6 +294,7 @@ for ind in range(len(equation)):
 print("Equation: ", new_eq)
 diffr = diff(new_eq)
 print("Differentiation: ", diffr)
+print("helo world")
 # except IndexError:
 # print(ind)
 # print(i)
